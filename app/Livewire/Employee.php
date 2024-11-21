@@ -93,7 +93,7 @@ class Employee extends Component
     public function render()
     {
         if ($this->katakunci != null) {
-            $dataEmployees = ModelsEmployee::where('nama', 'like', '%' . $this->katakunci . '%')
+            $dataEmployees = ModelsEmployee::search($this->katakunci)
                 ->orderBy('nama', 'asc')
                 ->paginate(5);
         } else {
