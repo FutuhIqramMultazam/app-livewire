@@ -62,6 +62,9 @@
     <!-- START DATA -->
     <div class="my-3 p-3 bg-body rounded shadow-sm">
         <h1>Data Pegawai</h1>
+        <div class="py-3">
+            <input type="text" placeholder="search.." class="mb-3 w-25 form-control" wire:model.live="katakunci">
+        </div>
         <table class="table table-striped">
             <thead>
                 <tr>

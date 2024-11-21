@@ -17,7 +17,8 @@ class Employee extends Component
         $email,
         $alamat,
         $updateData = false,
-        $employee_id;
+        $employee_id,
+        $katakunci;
 
     public function store()
     {
@@ -91,8 +92,14 @@ class Employee extends Component
 
     public function render()
     {
-        $dataEmployees = ModelsEmployee::orderBy('nama', 'asc')
-            ->paginate(5);
+        if ($this->katakunci != null) {
+            $dataEmployees = ModelsEmployee::where('nama', 'like', '%' . $this->katakunci . '%')
+                ->orderBy('nama', 'asc')
+                ->paginate(5);
+        } else {
+            $dataEmployees = ModelsEmployee::orderBy('nama', 'asc')
+                ->paginate(5);
+        }
         return view('livewire.employee', compact('dataEmployees'));
     }
 }
