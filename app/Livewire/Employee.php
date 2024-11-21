@@ -76,6 +76,19 @@ class Employee extends Component
         $this->employee_id = '';
     }
 
+    public function delete()
+    {
+        $id = $this->employee_id;
+        ModelsEmployee::find($id)->delete();
+        $this->clear();
+        redirect()->with('berhasil', 'Data berhasil di hapus.');
+    }
+
+    public function delete_confirmation($id)
+    {
+        $this->employee_id = $id;
+    }
+
     public function render()
     {
         $dataEmployees = ModelsEmployee::orderBy('nama', 'asc')

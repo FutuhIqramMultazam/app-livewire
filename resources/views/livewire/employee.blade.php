@@ -81,7 +81,7 @@
                     <td>{{ $item->alamat }}</td>
                     <td>
                         <a wire:click="edit({{ $item->id }})" class="btn btn-warning btn-sm">Edit</a>
-                        <a href="" class="btn btn-danger btn-sm">Del</a>
+                        <a wire:click="delete_confirmation({{ $item->id }})" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Hapus</a>
                     </td>
                 </tr>
                 @endforeach
@@ -93,4 +93,22 @@
 
     {{ $dataEmployees->links() }}
 
+
+    <div wire:ignore.self class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Konfirmasi Delete</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+             Yakin akan menghapus data ini ?
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tidak</button>
+              <button type="button" class="btn btn-success" data-bs-dismiss="modal" wire:click="delete()" >Iya</button>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
