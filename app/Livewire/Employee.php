@@ -13,9 +13,11 @@ class Employee extends Component
     use WithPagination;
     protected $paginationTheme = 'bootstrap';
 
-    public  $nama,
+    public $nama,
         $email,
-        $alamat;
+        $alamat,
+        $updateData = false,
+        $employee_id;
 
     public function store()
     {
@@ -31,7 +33,47 @@ class Employee extends Component
 
         ModelsEmployee::create($validated);
 
+        $this->clear();
         redirect()->with('berhasil', 'Data berhasil masuk.');
+    }
+
+    public function edit($id)
+    {
+        $data = ModelsEmployee::find($id);
+        $this->nama = $data->nama;
+        $this->email = $data->email;
+        $this->alamat = $data->alamat;
+        $this->updateData = true;
+        $this->employee_id = $id;
+    }
+
+    public function update()
+    {
+        $validated = $this->validate([
+            'nama' => ['required'],
+            'email' => [
+                'required',
+                'email',
+                Rule::unique('employees', 'email')
+                    ->ignore($this->employee_id)
+            ],
+            'alamat' => ['required'],
+        ]);
+
+        ModelsEmployee::find($this->employee_id)
+            ->update($validated);
+
+        $this->clear();
+        redirect()->with('berhasil', 'Data berhasil di update.');
+    }
+
+    public function clear()
+    {
+        $this->nama = '';
+        $this->email = '';
+        $this->alamat = '';
+        $this->updateData = false;
+        $this->employee_id = '';
     }
 
     public function render()

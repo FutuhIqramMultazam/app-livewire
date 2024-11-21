@@ -4,7 +4,7 @@
     <div class="row d-flex justify-content-center">
         <div class="col-md-6 d-flex justify-content-center">
             <div class="alert alert-success mt-3 alert-dismissible fade show" role="alert">
-                <strong>Berhasil !</strong> {{ session('berhasil') }}
+                <strong>Berhasil !,</strong> {{ session('berhasil') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
               </div>
         </div>
@@ -17,7 +17,14 @@
             <div class="mb-3 row">
                 <label for="nama" class="col-sm-2 col-form-label">Nama</label>
                 <div class="col-sm-10">
-                    <input type="text" class="form-control  @error('nama') is-invalid @enderror" wire:model="nama">
+                    <input type="text" class="form-control  @error('nama') is-invalid @enderror" wire:model="nama"> 
+                    {{-- wire:model="nama" fungsi ini sakti banget, 
+                        ini udah termasuk name, 
+                        fungsi old yang biasa kita kalo ngisi di form ada yang salah ga ilang nilai yang ada di input nya,
+                        terus ini juga termasuk value="",
+                        tapi syarat kalo mau pake fungsi wire:model ini
+                        kita harus punya property di dalam class kita.
+                        mungkin masih banyak keutamaan lain nya --}}
                     @error('nama') <div class="invalid-feedback">{{ $message  }}</div> @enderror
                 </div>
             </div>
@@ -37,7 +44,15 @@
             </div>
             <div class="mb-3 row">
                 <label class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-10"><button type="button" class="btn btn-primary" name="submit" wire:click='store()'>SIMPAN</button>
+                <div class="col-sm-10">
+                    
+                @if ($updateData == false)
+                <button type="button" class="btn btn-primary" name="submit" wire:click='store()'>SIMPAN</button>
+                @else
+                <button type="button" class="btn btn-primary" name="submit" wire:click='update()'>UPDATE</button>
+                @endif
+                <button type="button" class="btn btn-outline-danger" name="submit" wire:click='clear()'>HAPUS</button>
+
                 </div>
             </div>
         </form>
@@ -65,7 +80,7 @@
                     <td>{{ $item->email }}</td>
                     <td>{{ $item->alamat }}</td>
                     <td>
-                        <a href="" class="btn btn-warning btn-sm">Edit</a>
+                        <a wire:click="edit({{ $item->id }})" class="btn btn-warning btn-sm">Edit</a>
                         <a href="" class="btn btn-danger btn-sm">Del</a>
                     </td>
                 </tr>
