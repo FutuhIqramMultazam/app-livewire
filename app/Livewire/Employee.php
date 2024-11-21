@@ -2,12 +2,17 @@
 
 namespace App\Livewire;
 
+
 use App\Models\Employee as ModelsEmployee;
 use Livewire\Component;
 use Illuminate\Validation\Rule;
+use Livewire\WithPagination;
 
 class Employee extends Component
 {
+    use WithPagination;
+    protected $paginationTheme = 'bootstrap';
+
     public  $nama,
         $email,
         $alamat;
@@ -19,7 +24,7 @@ class Employee extends Component
             'email' => [
                 'required',
                 'email',
-                Rule::unique('users', 'email')
+                Rule::unique('employees', 'email')
             ],
             'alamat' => ['required'],
         ]);
@@ -31,6 +36,8 @@ class Employee extends Component
 
     public function render()
     {
-        return view('livewire.employee');
+        $dataEmployees = ModelsEmployee::orderBy('nama', 'asc')
+            ->paginate(5);
+        return view('livewire.employee', compact('dataEmployees'));
     }
 }
