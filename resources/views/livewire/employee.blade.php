@@ -65,9 +65,13 @@
         <div class="py-3">
             <input type="text" placeholder="search.." class="mb-3 w-25 form-control" wire:model.live="katakunci">
         </div>
+        @if ($employee_selected_id)
+        <a  wire:click="delete_confirmation('')" class="btn btn-danger mb-3 btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal">Hapus {{ count($employee_selected_id) }} Data</a>
+        @endif
         <table class="table table-striped">
             <thead>
                 <tr>
+                    <th></th>
                     <th class="col-md-1">No</th>
                     <th class="col-md-4">Nama</th>
                     <th class="col-md-3">Email</th>
@@ -78,6 +82,7 @@
             <tbody>
                 @foreach ($dataEmployees as $key => $item)
                 <tr>
+                    <td><input type="checkbox" wire:key="{{ $item->id }}" value="{{ $item->id }}" wire:model.live="employee_selected_id"></td>
                     <td>{{ $dataEmployees->firstItem() + $key }}</td>
                     <td>{{ $item->nama }}</td>
                     <td>{{ $item->email }}</td>
